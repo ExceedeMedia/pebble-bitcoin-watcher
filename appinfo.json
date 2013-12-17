@@ -1,0 +1,48 @@
+{
+  "uuid": "7b3a6d65-daca-41f9-8bd5-e1eb28d72e22",
+  "shortName": "Bitcoin Watcher",
+  "longName": "Get lastest Bitcoin prices from http://www.bitcoinaverage.com/",
+  "companyName": "Exceede Media",
+  "versionCode": 1,
+  "versionLabel": "1.0.0",
+  "watchapp":
+  {
+    "watchface": false
+  },
+  "appKeys":
+  {
+    "previous": 1,
+    "next": 2,
+    "reload": 3,
+    "symbol": 4,
+    "price": 5,
+    "ask": 6,
+    "bid": 7
+  },
+  "resources": {
+    "media":
+    [
+        {
+            "name": "ARROW_UP",
+            "file": "arrow_up.png",
+            "type": "png"
+        },
+        {
+            "name": "ARROW_DOWN",
+            "file": "arrow_down.png",
+            "type": "png"
+        },
+        {
+            "name": "ARROW_RELOAD",
+            "file": "arrow_reload.png",
+            "type": "png"
+        },
+        {
+            "name": "LOGO",
+            "file": "logo.png",
+            "type": "png"
+        }
+    ]
+  },
+  "capabilities": ["configurable"]
+}
