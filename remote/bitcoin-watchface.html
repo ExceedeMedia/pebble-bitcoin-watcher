@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bitcoin Watchface Pebble App Configurator</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script>
+    <script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>
+    <script type="text/javascript">
+    var API_URL = "https://api.bitcoinaverage.com/ticker/all";
+
+    var App = angular.module("App", []);
+
+    App.controller("SelectorCtrl", function($scope, $http)
+    {
+        $scope.view = {};
+        var settings = JSON.parse(window.location.hash.slice(1) || "[]");
+
+        $scope.view.onSubmit = function($event)
+        {
+            var checked = [];
+            _.each($scope.view.symbols, function(v, k)
+            {
+                if(v) { checked.push(k); };
+            });
+
+            window.location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(checked));
+        };
+
+        $scope.view.onCancel = function($event)
+        {
+            window.location = "pebblejs://close#";
+        };
+
+        $http(
+        {
+            method: 'GET',
+            url: API_URL,
+            responseType: 'json'
+        })
+        .success(function onApiSuccess(data, status)
+        {
+            $scope.view.symbols = {};
+            _.keys(data).filter(function(s) { return s.length === 3; }).forEach(function(s)
+            {
+                $scope.view.symbols[s] = settings.indexOf(s) >= 0;
+            });
+        });
+    });
+    </script>
+</head>
+<body data-ng-app="App">
+    <h1>Available Symbols</h1>
+    <div data-ng-controller="SelectorCtrl">
+        <form data-ng-submit="view.onSubmit()">
+            <div data-ng-repeat="(symbol, value) in view.symbols">
+                <input type="checkbox" data-ng-model="view.symbols[symbol]" />{{symbol}}
+            </div>
+            <button type="submit">Save</button>
+            <input type="button" ng-click="view.onCancel()" value="Cancel" />
+        </form>
+    </div>
+</body>
+</html>
